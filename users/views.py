@@ -35,7 +35,7 @@ class LoginAPI(APIView):
         password = request.data.get('password')
         try:
             user = User.objects.get(email=email)
-            if user.check_password(password): 
+            if user.check_password(password):
                 token, created = Token.objects.get_or_create(user=user)
                 return Response({
                     'success': True,

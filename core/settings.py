@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework.authtoken',
     'users',
+    'tts',
 ]
 
 AUTH_USER_MODEL = 'users.User'

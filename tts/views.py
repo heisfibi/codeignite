@@ -1,32 +1,24 @@
 import requests
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.views import APIView
+from rest_framework import generics, permissions, status
+from rest_framework.response import Response
+# from fam.llm.fast_inference import TTS
 
-@csrf_exempt
-def text_to_speech(request):
-    if request.method == 'POST':
-        text = request.POST.get('text', '')
 
-        # Replace with your Meta Free Text-to-Speech API endpoint and key
-        api_url = "https://api.meta.com/v1/tts"
-        api_key = "YOUR_API_KEY"
+class SpeakToTextAPI(APIView):
+    permission_classes = [permissions.AllowAny]
 
-        headers = {
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json"
-        }
+    def get(self, request, *args, **kwargs):
+        # tts = TTS()
+        # tts.synthesise(text="Hello World", spk_ref_path="assets/voice.mp3")
+        return Response("")
 
-        data = {
-            "text": text,
-            "voice": "default",  # Specify the voice if needed
-            "language": "en-US"  # Specify the language if needed
-        }
 
-        response = requests.post(api_url, json=data, headers=headers)
+class TextToSpeakAPI(APIView):
+    permission_classes = [permissions.AllowAny]
 
-        if response.status_code == 200:
-            return JsonResponse(response.json())
-        else:
-            return JsonResponse({"error": "Failed to generate speech"}, status=500)
-    else:
-        return JsonResponse({"error": "Invalid request method"}, status=405)
+    def get(self, request, *args, **kwargs):
+        return Response("")
+
