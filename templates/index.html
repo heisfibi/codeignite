@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Text</title>
+    <script>
+        async function uploadFile() {
+            const formData = new FormData();
+            const fileInput = document.getElementById('fileInput');
+            formData.append('file', fileInput.files[0]);
+
+            const response = await fetch('/api/tts/speak-to-text/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            });
+
+            const result = await response.json();
+            document.getElementById('result').innerText = result.text || 'An error occurred';
+        }
+    </script>
+</head>
+<body>
+    <h1>Upload Audio File for Speech to Text</h1>
+    <form id="uploadForm" onsubmit="event.preventDefault(); uploadFile();">
+        {% csrf_token %}
+        <input type="file" id="fileInput" name="file" accept="audio/*" required>
+        <button type="submit">Upload</button>
+    </form>
+    <h2>Result:</h2>
+    <p id="result"></p>
+</body>
+</html>
